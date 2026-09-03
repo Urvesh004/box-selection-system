@@ -1,0 +1,129 @@
+{% extends 'box_selector/base.html' %}
+
+{% block title %}
+  Create Order | Box Selection System
+{% endblock %}
+
+{% block content %}
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Create New Order</h1>
+
+      <p class="page-description">Add one or more products to create a shipping order.</p>
+    </div>
+  </div>
+
+  <div class="form-card">
+    <form method="POST" id="order-form">
+      {% csrf_token %}
+
+      {{ formset.management_form }}
+
+      {% if formset.non_form_errors %}
+        <div class="alert alert-error">
+          {% for error in formset.non_form_errors %}
+            {{ error }}
+          {% endfor %}
+        </div>
+      {% endif %}
+
+      <div id="order-items">
+        {% for form in formset %}
+          <div class="order-item-row">
+            <div class="form-group">
+              <label>Product</label>
+
+              {{ form.product }}
+
+              {% for error in form.product.errors %}
+                <div class="error-message">{{ error }}</div>
+              {% endfor %}
+            </div>
+
+            <div class="form-group">
+              <label>Quantity</label>
+
+              {{ form.quantity }}
+
+              {% for error in form.quantity.errors %}
+                <div class="error-message">{{ error }}</div>
+              {% endfor %}
+            </div>
+
+            <div class="remove-button-container">
+              <button type="button" class="btn btn-danger remove-item">Remove</button>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+
+      <div class="order-actions">
+        <button type="button" id="add-product" class="btn btn-secondary">+ Add Product</button>
+      </div>
+
+      <div class="submit-actions">
+        <button type="submit" class="btn btn-success">Create Order</button>
+
+        <a href="{% url 'order-list' %}" class="btn btn-secondary">Cancel</a>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const container = document.getElementById('order-items')
+    
+      const addButton = document.getElementById('add-product')
+    
+      const totalForms = document.getElementById('id_form-TOTAL_FORMS')
+    
+      function addProductRow() {
+        const formIndex = parseInt(totalForms.value)
+    
+        const firstRow = container.querySelector('.order-item-row')
+    
+        const newRow = firstRow.cloneNode(true)
+    
+        newRow.innerHTML = newRow.innerHTML.replace(/form-\d+/g, `form-${formIndex}`)
+    
+        newRow.querySelectorAll('input').forEach(function (input) {
+          input.value = ''
+        })
+    
+        newRow.querySelectorAll('select').forEach(function (select) {
+          select.selectedIndex = 0
+        })
+    
+        newRow.querySelectorAll('.error-message').forEach(function (error) {
+          error.remove()
+        })
+    
+        container.appendChild(newRow)
+    
+        totalForms.value = formIndex + 1
+    
+        updateRemoveButtons()
+      }
+    
+      function updateRemoveButtons() {
+        const rows = container.querySelectorAll('.order-item-row')
+    
+        rows.forEach(function (row) {
+          const removeButton = row.querySelector('.remove-item')
+    
+          removeButton.addEventListener('click', function () {
+            if (container.querySelectorAll('.order-item-row').length === 1) {
+              return
+            }
+    
+            row.remove()
+          })
+        })
+      }
+    
+      addButton.addEventListener('click', addProductRow)
+    
+      updateRemoveButtons()
+    })
+  </script>
+{% endblock %}

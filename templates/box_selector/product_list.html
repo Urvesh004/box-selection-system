@@ -1,0 +1,54 @@
+{% extends 'box_selector/base.html' %}
+
+{% block title %}
+  Products | Box Selection System
+{% endblock %}
+
+{% block content %}
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Products</h1>
+
+      <p class="page-description">All products available for shipping.</p>
+    </div>
+  </div>
+
+  <div class="table-container">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Product</th>
+          <th>Length</th>
+          <th>Width</th>
+          <th>Height</th>
+          <th>Weight</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        {% for product in products %}
+          <tr>
+            <td>{{ product.id }}</td>
+
+            <td>
+              <strong>{{ product.name }}</strong>
+            </td>
+
+            <td>{{ product.length }} cm</td>
+
+            <td>{{ product.width }} cm</td>
+
+            <td>{{ product.height }} cm</td>
+
+            <td>{{ product.weight }} kg</td>
+          </tr>
+        {% empty %}
+          <tr>
+            <td colspan="6">No products found.</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endblock %}

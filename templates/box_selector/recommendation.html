@@ -1,0 +1,99 @@
+{% extends 'box_selector/base.html' %}
+
+{% block title %}
+  Box Recommendation | Order #{{ order.id }}
+{% endblock %}
+
+{% block content %}
+  <div class="recommendation-page">
+    <div class="recommendation-header">
+      <span class="page-eyebrow">SMART PACKING</span>
+
+      <h1 class="page-title">Box Recommendation</h1>
+
+      <p class="page-description">Best shipping box for Order #{{ order.id }}</p>
+    </div>
+
+    {% if box %}
+      <div class="recommendation-status success">
+        <span class="status-icon">✓</span>
+
+        <div>
+          <strong>Suitable box found</strong>
+
+          <p>We found the lowest-cost box that meets the current size and weight requirements.</p>
+        </div>
+      </div>
+
+      <div class="box-result-card">
+        <div class="box-icon">📦</div>
+
+        <div class="box-result-content">
+          <span class="result-label">RECOMMENDED BOX</span>
+
+          <h2>{{ box.name }}</h2>
+
+          <div class="box-details-grid">
+            <div>
+              <span>Dimensions</span>
+
+              <strong>
+                {{ box.length }}
+                ×
+                {{ box.width }}
+                ×
+                {{ box.height }}
+                cm
+              </strong>
+            </div>
+
+            <div>
+              <span>Weight Capacity</span>
+
+              <strong>{{ box.max_weight }} kg</strong>
+            </div>
+
+            <div>
+              <span>Shipping Cost</span>
+
+              <strong>₹{{ box.cost }}</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="why-card">
+        <h2>Why this box?</h2>
+
+        <div class="reason">
+          <span>✓</span>
+          Dimensions are suitable
+        </div>
+
+        <div class="reason">
+          <span>✓</span>
+          Weight capacity is sufficient
+        </div>
+
+        <div class="reason">
+          <span>✓</span>
+          Lowest-cost suitable box
+        </div>
+      </div>
+    {% else %}
+      <div class="recommendation-status error">
+        <span class="status-icon">!</span>
+
+        <div>
+          <strong>No suitable box found</strong>
+
+          <p>None of the available boxes can handle this order's current size and weight.</p>
+        </div>
+      </div>
+    {% endif %}
+
+    <div class="recommendation-actions">
+      <a href="{% url 'order-detail' order.id %}" class="btn btn-secondary">← Back to Order</a>
+    </div>
+  </div>
+{% endblock %}

@@ -1,0 +1,43 @@
+{% extends 'box_selector/base.html' %}
+
+{% block title %}
+  Dashboard | Box Selection System
+{% endblock %}
+
+{% block content %}
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Dashboard</h1>
+
+      <p class="page-description">Manage products, boxes and shipping orders.</p>
+    </div>
+
+    <a href="{% url 'create-order' %}" class="btn btn-primary">+ Create Order</a>
+  </div>
+
+  <div class="card-grid">
+    <div class="card">
+      <div class="stat-label">Products</div>
+
+      <div class="stat-number">{{ product_count }}</div>
+
+      <a href="{% url 'product-list' %}" class="btn btn-secondary">View Products</a>
+    </div>
+
+    <div class="card">
+      <div class="stat-label">Boxes</div>
+
+      <div class="stat-number">{{ box_count }}</div>
+
+      <a href="{% url 'box-list' %}" class="btn btn-secondary">View Boxes</a>
+    </div>
+
+    <div class="card">
+      <div class="stat-label">Orders</div>
+
+      <div class="stat-number">{{ order_count }}</div>
+
+      <a href="{% url 'order-list' %}" class="btn btn-secondary">View Orders</a>
+    </div>
+  </div>
+{% endblock %}

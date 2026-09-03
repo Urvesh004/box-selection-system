@@ -1,0 +1,49 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>
+      {% block title %}
+        Box Selection System
+      {% endblock %}
+    </title>
+
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+  </head>
+
+  <body>
+    <nav class="navbar">
+      <div class="navbar-container">
+        <div class="logo">📦 Box Selection System</div>
+
+        <div class="nav-links">
+          <a href="{% url 'home' %}">Dashboard</a>
+
+          <a href="{% url 'product-list' %}">Products</a>
+
+          <a href="{% url 'box-list' %}">Boxes</a>
+
+          <a href="{% url 'order-list' %}">Orders</a>
+
+          <a href="{% url 'create-order' %}">Create Order</a>
+
+          <a href="/admin/">Admin</a>
+        </div>
+      </div>
+    </nav>
+
+    <main class="container">
+      {% block content %}
+
+      {% endblock %}
+    </main>
+
+    <footer class="footer">
+      <p>Box Selection System © 2026</p>
+    </footer>
+  </body>
+</html>

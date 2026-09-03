@@ -1,0 +1,49 @@
+{% extends 'box_selector/base.html' %}
+
+{% block title %}
+  Orders | Box Selection System
+{% endblock %}
+
+{% block content %}
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Orders</h1>
+
+      <p class="page-description">View and manage customer orders.</p>
+    </div>
+
+    <a href="{% url 'create-order' %}" class="btn btn-primary">+ Create Order</a>
+  </div>
+
+  <div class="table-container">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Order ID</th>
+          <th>Created At</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        {% for order in orders %}
+          <tr>
+            <td>
+              <strong>Order #{{ order.id }}</strong>
+            </td>
+
+            <td>{{ order.created_at|date:'d M Y, h:i A' }}</td>
+
+            <td>
+              <a href="{% url 'order-detail' order.id %}" class="btn btn-secondary">View Order</a>
+            </td>
+          </tr>
+        {% empty %}
+          <tr>
+            <td colspan="3">No orders found.</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endblock %}

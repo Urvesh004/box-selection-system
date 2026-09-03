@@ -1,0 +1,53 @@
+{% extends 'box_selector/base.html' %}
+
+{% block title %}
+  Boxes | Box Selection System
+{% endblock %}
+
+{% block content %}
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Shipping Boxes</h1>
+
+      <p class="page-description">Available boxes and their shipping costs.</p>
+    </div>
+  </div>
+
+  <div class="table-container">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Box</th>
+          <th>Dimensions</th>
+          <th>Max Weight</th>
+          <th>Cost</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        {% for box in boxes %}
+          <tr>
+            <td>{{ box.id }}</td>
+
+            <td>
+              <strong>{{ box.name }}</strong>
+            </td>
+
+            <td>{{ box.length }} ×
+              {{ box.width }} ×
+              {{ box.height }} cm</td>
+
+            <td>{{ box.max_weight }} kg</td>
+
+            <td>₹{{ box.cost }}</td>
+          </tr>
+        {% empty %}
+          <tr>
+            <td colspan="5">No boxes available.</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endblock %}

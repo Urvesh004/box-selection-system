@@ -1,0 +1,92 @@
+{% extends 'box_selector/base.html' %}
+
+{% block title %}
+  Order #{{ order.id }} | Box Selection System
+{% endblock %}
+
+{% block content %}
+  <div class="page-header">
+    <div>
+      <span class="page-eyebrow">ORDER DETAILS</span>
+
+      <h1 class="page-title">Order #{{ order.id }}</h1>
+
+      <p class="page-description">Created
+        {{ order.created_at|date:'d M Y, h:i A' }}</p>
+    </div>
+
+    <a href="{% url 'recommendation-page' order.id %}" class="btn btn-success">📦 Recommend Box</a>
+  </div>
+
+  <div class="summary-grid">
+    <div class="summary-card">
+      <span>Products</span>
+
+      <strong>{{ order.items.count }}</strong>
+    </div>
+
+    <div class="summary-card">
+      <span>Total Items</span>
+
+      <strong id="total-items">0</strong>
+    </div>
+
+    <div class="summary-card">
+      <span>Total Weight</span>
+
+      <strong id="total-weight">0 kg</strong>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="section-header">
+      <div>
+        <h2>Products in Order</h2>
+
+        <p>Items included in this shipment.</p>
+      </div>
+    </div>
+
+    <div class="table-container">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Product</th>
+            <th>Quantity</th>
+            <th>Unit Weight</th>
+            <th>Total Weight</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          {% for item in order.items.all %}
+            <tr>
+              <td>
+                <strong>{{ item.product.name }}</strong>
+              </td>
+
+              <td>{{ item.quantity }}</td>
+
+              <td>{{ item.product.weight }} kg</td>
+
+              <td>{{ item.product.weight|floatformat:2 }}
+                ×
+                {{ item.quantity }}
+                kg</td>
+            </tr>
+          {% empty %}
+            <tr>
+              <td colspan="4">No products in this order.</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="order-bottom-actions">
+    <a href="{% url 'order-list' %}" class="btn btn-secondary">← Back to Orders</a>
+
+    <a href="{% url 'recommendation-page' order.id %}" class="btn btn-success">Find Best Box →</a>
+  </div>
+{% endblock %}
